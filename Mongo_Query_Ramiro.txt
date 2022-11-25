@@ -1,0 +1,40 @@
+Descripcion: Esta consulta permitirá conocer los pacientes con edades mayores a 5 años
+y que tengan Ninguna alergia
+Fecha: 24/11/2022
+Usuario: Ramiro Sebstián García Cárdenas
+
+db.Paciente_Hijo.aggregate([
+{ $match : {
+		"Alergia_PacienteNinguna" : {$eq : "Ninguna"},
+     		"Edad_Paciente": {$gte: 5}
+	   }
+},
+{$project: {
+    		Alergia_Paciente: "$Alergia_PacienteNinguna",
+   		Edad_Paciente: 1
+    	   }
+}
+])
+
+--------------------------------------------------------------------
+
+Descripción: Esta consulta permitirá conocer a todos los pacientes que
+sufren de una enfermedad grave y conocer su cantidad.
+Fecha: 24/11/2022
+Usuario: Ramiro Sebastián García Cárdenas
+
+db.Categoria_Enfermedad.aggregate([
+{
+    $lookup: {
+      from: "Categoria_Enfermedad",
+      LocalField: "ID_Categoria_Enfermedad",
+      ForeignField: "_id",
+      as: "categorias"
+    }
+},
+{
+    $match: {
+      "Categoria": {$eq: "grave"}
+    }
+}
+])

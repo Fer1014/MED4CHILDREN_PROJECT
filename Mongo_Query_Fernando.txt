@@ -1,0 +1,30 @@
+------------- CONSULTA 1 ----------------
+Descripcion: Esta consulta nos mostrará los datos de las enfermedades y con su respectivo id.
+--Fecha:24/11/2022
+--Alumno: Fernando Sotelo Ramon
+db.Enfermedad.aggregate([
+{$lookup:
+     {
+        from: "Enfermedades",
+        localField: "Enfermdad_ID"
+        foreignField: "_id",
+        as: "Data_Enfermedades"
+      }
+]);
+
+--------------- CONSULTA 2 ----------------
+Descripción: Esta consulta nos ayuda a saber donde laboral los pediatras.
+Asi podremos saber si laboran en mas de una Clinica
+--Fecha: 24/11/2022
+--Alumno: Fernando Sotelo Ramon
+db.Pediatras.aggregate([
+{$project:
+    {
+      "Nombre_Pediatra": 1,
+      "Formacion_Pediatra":1,
+      "Local_Clinica": { $size: "$SubjectsId" }
+     }
+}]),
+
+
+

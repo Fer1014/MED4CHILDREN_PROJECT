@@ -1,0 +1,31 @@
+
+Descripcion: Saber si el sintoma que tiene es grave o leve,
+y sacar suma de las edades de los pacientes que son los hijos de nuestros usuarios
+Fecha: 23/11/2022
+User: Renzo Marcello Repetto Martini 
+
+db.sintoma.aggregate([
+{$match: {
+	$or: [{Gravedad_Sintoma : "grave},{Gravedad_Sintoma : "leve"}]}}
+{$group: {_id '$Gravedad_Sintoma',total: {$sum:'$Edad_Paciente'}}
+])
+
+
+Descripcion: Todos los pacientes hijos de los usuarios padres donde la edad sea igual a 4 
+Fecha: 23/11/2022
+User: Renzo Marcello Repetto Martini 
+
+db.Paciente_Hijo.aggregate([
+{$lookup: 
+	{
+		from: 'Usuario_Padre',
+		LocalField: 'ID_Paciente',
+		foreignField: '_id',
+		as: 'grupos'
+	}
+},
+{$match:{Edad_Paciente: '4'}}
+])
+
+
+

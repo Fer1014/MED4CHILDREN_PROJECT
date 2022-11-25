@@ -1,0 +1,29 @@
+Descripcion: Muestra los pediatras disponibles de manera directa,
+para que sean identificados por el area que indique la empresa
+Fecha: 23/11/22
+Usuario: Hugo Gabriel Rojas Cuba
+
+db.Pediatra.aggregate([{
+	$project: {
+		"Nombre_Pediatra": 1,
+		"Clinica":1
+	}
+}])
+
+
+
+----------------------------------------------------------------------
+Descripcion: Muestra las citas medicas de manera completa y ordenada,
+dando los datos que muestra a continuacion, como la fecha exacta, datos
+del paciente y datos del pediatra
+Fecha: 23/11/22
+Usuario: Hugo Gabriel Rojas Cuba
+
+db.Cita_Medica.aggregate([{
+	$project: {
+		"Horario_Cita": 1,
+		"Pediatra":1,
+		"Usuario_Paciente":1
+	}
+}])
+

@@ -1,0 +1,29 @@
+/*Descripcion: Para conocer cuantos pacientes atiende el pediatra en una clinica
+Fecha: 23/11/2022
+User: Cesar Alvaro Martinez Callupe*/
+
+db.Pediatra.aggregate([{
+	$project: {
+		"Nombre_Pediatra": 1,
+		"Clinica":1,
+		"N° Pacientes": {$size: "$ID_Paciente"}
+	}
+}])
+
+
+/*Descripcion: Esta consulta enlaza la colección Paciente_Hijo con Pediatra. 
+Esto nos va ayudar a que los pediatras esten asignados a sus pacientes correctamente 
+y se tenga acceso a los datos correctos de sus citas
+Fecha: 23/11/2022
+User: Cesar Alvaro Martinez Callupe*/
+
+db.Pediatra.aggregate([
+{
+   $lookup:
+      {
+         from: "Paciente_Hijo",
+         localField: "ID_Paciente",
+         foreignField: "_id",
+         as: "Citas"
+      }
+}]);

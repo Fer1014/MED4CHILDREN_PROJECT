@@ -1,0 +1,61 @@
+--Descripción: Esta consulta encuentra los síntomas como "Dolor corporal" de los pacientes. Además de la gravedad del síntoma que padece
+--Fecha: 23/11/2022
+--Usuario: Valeria Milagros Caqui Pizarro
+
+db.Paciente_Hijo.aggregate([
+	{
+	
+		$lookup: {
+		  from: "sintoma",
+		  localField: "id_paciente",
+		  foreignField:"_id",
+		  as:"sintomaPaciente"
+	       }
+	},
+	{
+		$match: {
+		  "sintomaPaciente.sintoma_paciente":{$eq: "Dolor corporal"},
+		  "sintomaPaciente.gravedad_sintoma":{$eq: "leve"},
+ 		}
+	},
+	{
+		$project: {
+		  _id:0,
+		  "sintoma_paciente":0,
+		  "gravedad_sintoma":0
+	       }
+	}
+])
+
+------------------------------------------------------------
+--Descripción: Esta consulta muestra los datos personales del pediatra como el nombre de su "universidad" y que pertenezca a la especialidad de "neurologia"
+--Fecha: 23/11/2022
+--Usuario: Valeria Milagros Caqui Pizarro
+
+db.Carrera_Pediatra.aggregate([
+	{
+	
+		   $lookup: {
+		  from: "Pediatra",
+		  localField: "id_pediatra",
+		  foreignField:"_id",
+		  as:"Universidad_pediatra"
+	       }
+	},
+	{
+		$match: {
+		  "Universidad_pediatra.Nombre_pediatra":{$eq: "Carlos Vilchez"},
+		  "Universidad_pediatra.Formacion_pediatra":{$eq: "San Marcos"},
+		  "Especialidad_Adicional":{$eq : "Neurologio"}	
+ 		}
+	},
+	{
+		$project: {
+		  _id:0,
+		  "Especialidad_Adicional": 1
+		  nombre:"$Universidad_pediatra.Nombre_pediatra"
+		  formacion: "Universidad_pediatra.Formacion_pediatra"
+	       }
+	}
+])
+
